@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Craftbox by jalenconner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Craftbox</h1>
+      <h2 class="project-tagline">Simple Ubuntu Vagrant box targeted for Craft developers</h2>
+      <a href="https://github.com/jalenconner/craftbox" class="btn">View on GitHub</a>
+      <a href="https://github.com/jalenconner/craftbox/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/jalenconner/craftbox/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="craftbox" class="anchor" href="#craftbox" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Craftbox</h1>
+
+<h3>
+<a id="a-vagrant-craft-box-for-craft-cms" class="anchor" href="#a-vagrant-craft-box-for-craft-cms" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A Vagrant "Craft Box" for Craft CMS</h3>
+
+<p>Craftbox is a simple Vagrant box running Ubuntu 14.04 and targeted for Craft development. Craftbox is intended for Craft developers (like me) that would love to have a simple Vagrant box that installs Craft and all their favorite development tools.</p>
+
+<p>Do you use Wordpress? Check out <a href="https://github.com/jalenconner/workpress">Workpress</a>, my Vagrant box for Wordpress development.</p>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
+
+<ol>
+<li>Install VirtualBox - <a href="https://www.virtualbox.org/">https://www.virtualbox.org/</a>
+</li>
+<li>Install Vagrant - <a href="http://www.vagrantup.com/">http://www.vagrantup.com/</a>
+
+<ul>
+<li>Verify Vagrant is installed by running <code>vagrant -v</code> in your terminal.</li>
+</ul>
+</li>
+<li>Download Craftbox (choose one of the following ways):
+
+<ul>
+<li>Download and extract the GitHub repository - <a href="https://github.com/jalenconner/craftbox/archive/master.zip">https://github.com/jalenconner/craftbox/archive/master.zip</a>
+</li>
+<li>Clone the GitHub repository - <code>git clone https://github.com/jalenconner/craftbox.git</code>
+</li>
+</ul>
+</li>
+<li>Navigate to the folder you just downloaded and run <code>vagrant up</code> in your terminal. Please be patient; it always take a little time to download and boot up the VM the first time.</li>
+<li>Visit <a href="http://192.168.33.10">http://192.168.33.10</a> in your browser and you should see your Craft site.</li>
+<li>That's it! Were you expecting more?</li>
+</ol>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
+
+<h5>
+<a id="basic-vagrant-commands" class="anchor" href="#basic-vagrant-commands" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Vagrant Commands</h5>
+
+<p>Start or resume your server - <code>vagrant up</code></p>
+
+<p>Pause your server - <code>vagrant suspend</code></p>
+
+<p>Turn off your server - <code>vagrant halt</code></p>
+
+<p>SSH into your server - <code>vagrant ssh</code></p>
+
+<h5>
+<a id="provisioning" class="anchor" href="#provisioning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Provisioning</h5>
+
+<p>I am currently using <a href="https://www.ansible.com">Ansible</a> to provision the box. You can find all the provisioning files in the provisioning folder. Vagrant uses the Vagrantfile to run a shell script on the VM that installs Ansible and starts the Ansible playbook. That way you don't have to install Ansible on your host machine.</p>
+
+<h5>
+<a id="changing-the-ip" class="anchor" href="#changing-the-ip" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Changing the IP</h5>
+
+<p>Craftbox is setup to use the IP address of 192.168.33.10. If this IP is conflicting with something on your network, you may change it in the Vagrantfile to the IP address of your choosing and then run <code>vagrant reload</code> in your terminal.</p>
+
+<h5>
+<a id="development-url" class="anchor" href="#development-url" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Development URL</h5>
+
+<p>So who would want to visit <a href="http://192.168.33.10">http://192.168.33.10</a> when instead they could just browse to <a href="http://craftbox.dev">http://craftbox.dev</a>?
+1. <code>$ vagrant plugin install vagrant-hostsupdater</code>
+1. <code>$ sudo visudo</code>
+1. Add the following to the end of the file:</p>
+
+<pre><code># Allow passwordless startup of Vagrant with vagrant-hostsupdater.
+Cmnd_Alias VAGRANT_HOSTS_ADD = /bin/sh -c echo "*" &gt;&gt; /etc/hosts
+Cmnd_Alias VAGRANT_HOSTS_REMOVE = /usr/bin/sed -i -e /*/ d /etc/hosts
+%admin ALL=(root) NOPASSWD: VAGRANT_HOSTS_ADD, VAGRANT_HOSTS_REMOVE
+</code></pre>
+
+<ol>
+<li>Visit <a href="http://craftbox.dev">http://craftbox.dev</a>
+</li>
+<li>You can configure this url in the Vagrantfile.</li>
+<li>That's it! Were you expecting more?</li>
+</ol>
+
+<p>A big thanks to the wonderful <a href="https://github.com/cogitatio/vagrant-hostsupdater">Vagrant::Hostsupdater</a> plugin.</p>
+
+<h3>
+<a id="whats-installed" class="anchor" href="#whats-installed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What's Installed</h3>
+
+<ul>
+<li><a href="http://www.ubuntu.com/server">Ubuntu Server 14.04.3 LTS (64-bit; Trusty Tahr)</a></li>
+<li><a href="https://httpd.apache.org">Apache</a></li>
+<li><a href="https://www.php.net/">PHP</a></li>
+<li><a href="https://www.mysql.com">MYSQL</a></li>
+<li><a href="https://craftcms.com/">Craft</a></li>
+<li><a href="https://www.ansible.com">Ansible</a></li>
+</ul>
+
+<p>View the <a href="https://github.com/jalenconner/craftbox/blob/master/PACKAGES.md">full list of packages</a>.<br>
+Is there something that you think ought to be included here? Open an issue and let me know!</p>
+
+<h3>
+<a id="credentials" class="anchor" href="#credentials" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Credentials</h3>
+
+<h5>
+<a id="ssh-users" class="anchor" href="#ssh-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SSH Users</h5>
+
+<table>
+<thead>
+<tr>
+<th>Username</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vagrant</td>
+<td>vagrant</td>
+</tr>
+</tbody>
+</table>
+
+<h5>
+<a id="mysql-details" class="anchor" href="#mysql-details" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MYSQL Details</h5>
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>database name</td>
+<td>craftbox</td>
+</tr>
+<tr>
+<td>database user</td>
+<td>craftbox_user</td>
+</tr>
+<tr>
+<td>database password</td>
+<td>craftbox_pass</td>
+</tr>
+<tr>
+<td>database host</td>
+<td>localhost</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="additional-links" class="anchor" href="#additional-links" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional Links</h3>
+
+<ul>
+<li><a href="https://www.vagrantup.com/docs/">Vagrant Docs</a></li>
+<li><a href="https://craftcms.com/docs/introduction">Craft Docs</a></li>
+<li><a href="http://docs.ansible.com/ansible/">Ansible Docs</a></li>
+<li><a href="https://github.com/jalenconner/trusty64_base">jalenconner/trusty64_base</a></li>
+</ul>
+
+<h3>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h3>
+
+<p>I know Craftbox definitely could use some help and I'm sure it probably has its share of bugs too... So I'd love for anyone to help assist me develop this box further. Just open an issue and let me know what it is; be it a bug, tip, feature idea, question, or anything! Or if you are feeling code-savvy, fork my repo, make your changes, and create a pull-request.</p>
+
+<h3>
+<a id="change-log" class="anchor" href="#change-log" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Change Log</h3>
+
+<p>Current Version : 1.0</p>
+
+<p>View the full <a href="https://github.com/jalenconner/craftbox/blob/master/CHANGELOG.md">changelog</a>.</p>
+
+<h3>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Roadmap</h3>
+
+<p>Nothing currently...</p>
+
+<h3>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h3>
+
+<p>© 2016 Jalen Davenport</p>
+
+<p>Apache 2.0; view <a href="https://github.com/jalenconner/craftbox/blob/master/LICENSE">license</a></p>
+
+<h3>
+<a id="thanks" class="anchor" href="#thanks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Thanks</h3>
+
+<p>I'd like to give my thanks to Jake Dohm for giving me the idea to build a Vagrant box for Craft based on <a href="https://github.com/jalenconner/workpress">Workpress</a>.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/jalenconner/craftbox">Craftbox</a> is maintained by <a href="https://github.com/jalenconner">jalenconner</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

@@ -97,4 +97,4 @@ Nothing currently...
 Apache 2.0; view [license](https://github.com/jalenconner/craftbox/blob/master/LICENSE)
 
 ### Thanks
-I'd like to give my thanks to Jake Dohm for giving me the idea to build a Vagrant box for Craft based on [Workpress](https://github.com/jalenconner/workpress).
+I'd like to give my thanks to [Jake Dohm](https://github.com/jakedohm) for giving me the idea to build a Vagrant box for Craft based on [Workpress](https://github.com/jalenconner/workpress).

@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  remote_user: root
+  become: yes
+  vars:
+    document_root: /vagrant/public
+  handlers:
+    - name: reload apache
+      service: name=apache2 state=reloaded
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+  roles:
+    - lamp
+    - craft

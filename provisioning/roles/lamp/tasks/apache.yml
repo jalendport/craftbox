@@ -1,0 +1,46 @@
+---
+- name: Install APACHE
+  apt: name=apache2 state=present
+
+- name: Copy across new virtual host
+  template:
+    src=virtual-hosts.conf.j2
+    dest=/etc/apache2/sites-available/vagrant.conf
+  notify:
+    - reload apache
+
+- name: Remove default virtual host
+  file:
+    path=/etc/apache2/sites-enabled/000-default.conf
+    state=absent
+  notify:
+    - reload apache
+
+- name: Enable new vagrant virtual host
+  file:
+    src=/etc/apache2/sites-available/vagrant.conf
+    dest=/etc/apache2/sites-enabled/vagrant.conf
+    state=link
+  notify:
+    - reload apache
+
+- name: Apache should run under vagrant user
+  lineinfile:
+    line="export APACHE_RUN_USER={{ remote_deploy_user }}"
+    dest=/etc/apache2/envvars
+    state=present
+  notify:
+    - reload apache
+
+- name: Apache should run under vagrant group
+  lineinfile:
+    line="export APACHE_RUN_GROUP={{ remote_deploy_user }}"
+    dest=/etc/apache2/envvars
+    state=present
+  notify:
+    - reload apache
+
+- name: enabled mod_rewrite
+  apache2_module: name=rewrite state=present
+  notify:
+    - reload apache

@@ -1,0 +1,8 @@
+remote_craft_dir: /vagrant/public
+remote_deploy_user: vagrant
+
+craft_db_name: craftbox
+craft_db_user: craftbox_user
+craft_db_user_pass: craftbox_pass
+craft_db_prefix: craftbox_
+craft_home_url: 192.168.33.10

@@ -1,0 +1,54 @@
+---
+- name: Create Craft database
+  mysql_db: name="{{ craft_db_name }}"
+    state=present
+    login_user=root
+
+- name: Create Craft DB user and grant permissions to Craft DB
+  mysql_user: name="{{ craft_db_user }}"
+    password="{{ craft_db_user_pass }}"
+    priv="{{ craft_db_name }}.*:ALL"
+    state=present
+    login_user="root"
+
+- name: Is Craft downloaded?
+  stat: path="{{ remote_craft_dir }}/index.php"
+  register: craft_is_downloaded
+  become_user: vagrant
+
+- name: Create Craft directory
+  file: path="{{ remote_craft_dir }}"
+        owner="{{ remote_deploy_user }}"
+        mode=0755
+        state=directory
+  when: craft_is_downloaded.stat.exists == False
+  become_user: vagrant
+
+- name: Download craft
+  command: wget -O /vagrant/craft.zip http://buildwithcraft.com/latest.zip?accept_license=yes
+  when: craft_is_downloaded.stat.exists == False
+  become_user: vagrant
+
+- name: Install unzip
+  apt: name=unzip state=present
+
+- name: Unzip Craft zipped file
+  unarchive: src=/vagrant/craft.zip dest=/vagrant copy=no
+  when: craft_is_downloaded.stat.exists == False
+  become_user: vagrant
+
+- name: Remove db.php on the virtual machine
+  file:
+    path=/vagrant/craft/config/db.php
+    state=absent
+
+- name: Copy custom db.php to virtual machine
+  template:
+    src=db.php.j2
+    dest=/vagrant/craft/config/db.php
+
+- name: Rename .htaccess
+  command: mv /vagrant/public/htaccess /vagrant/public/.htaccess
+  when: craft_is_downloaded.stat.exists == False
+  notify:
+    - reload apache

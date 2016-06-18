@@ -25,7 +25,7 @@
   become_user: vagrant
 
 - name: Download craft
-  command: wget -O /vagrant/craft.zip http://buildwithcraft.com/latest.zip?accept_license=yes
+  command: wget -O /vagrant/craft.zip http://craftcms.com/latest.zip?accept_license=yes
   when: craft_is_downloaded.stat.exists == False
   become_user: vagrant
 

@@ -84,7 +84,7 @@ database host | localhost
 I know Craftbox definitely could use some help and I'm sure it probably has its share of bugs too... So I'd love for anyone to help assist me develop this box further. Just open an issue and let me know what it is; be it a bug, tip, feature idea, question, or anything! Or if you are feeling code-savvy, fork my repo, make your changes, and create a pull-request.
 
 ### Change Log
-Current Version : 1.0
+Current Version : 1.1.0 - Updated to PHP7
 
 View the full [changelog](https://github.com/jalenconner/craftbox/blob/master/CHANGELOG.md).
 

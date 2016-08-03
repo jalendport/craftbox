@@ -1,4 +1,4 @@
-### List of all currently ed packages:
+### List of all currently installed packages:
 
 accountsservice
 acpid

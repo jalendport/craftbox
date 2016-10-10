@@ -1,6 +1,7 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "jalenconner/trusty64_base"
   config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.synced_folder ".", "/vagrant", type: "nfs"
   config.vm.hostname = "craftbox.dev"
   config.vm.provision :shell,
     :keep_color => true,
